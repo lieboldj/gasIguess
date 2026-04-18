@@ -6,7 +6,6 @@ from config import load_config
 from i18n import LANGUAGE_NAMES, t
 from storage import latest, recent
 
-st.set_page_config(page_title="Gas Sensor", layout="wide")
 cfg = load_config()
 db_path = cfg["storage"]["db_path"]
 warn = cfg["thresholds"]["warn"]
@@ -15,8 +14,24 @@ refresh = cfg["dashboard"]["refresh_seconds"]
 default_window = cfg["dashboard"]["default_window_minutes"]
 default_lang = cfg.get("language", "de")
 
+# language must be resolved before set_page_config so the ⋮ menu is localized.
+# precedence: ?lang= query param → session_state → config.yaml
+_qp_lang = st.query_params.get("lang") if hasattr(st, "query_params") else None
 if "lang" not in st.session_state:
-    st.session_state.lang = default_lang
+    st.session_state.lang = _qp_lang or default_lang
+elif _qp_lang and _qp_lang != st.session_state.lang:
+    st.session_state.lang = _qp_lang
+
+_page_lang = st.session_state.lang
+st.set_page_config(
+    page_title=t(_page_lang, "title"),
+    layout="wide",
+    menu_items={
+        "About": t(_page_lang, "menu_about"),
+        "Get help": None,
+        "Report a bug": None,
+    },
+)
 
 with st.sidebar:
     codes = list(LANGUAGE_NAMES.keys())
@@ -66,9 +81,9 @@ with col1:
 with col2:
     digital = latest_row["digital"] if latest_row else None
     ts = latest_row["ts"] if latest_row else "—"
-    color = "#ff4b4b" if digital == 1 else "#4caf50" if digital == 0 else "#888"
-    label = (t(lang, "digital_tripped") if digital == 1
-             else t(lang, "digital_ok") if digital == 0
+    color = "#ff4b4b" if digital == 0 else "#4caf50" if digital == 1 else "#888"
+    label = (t(lang, "digital_tripped") if digital == 0
+             else t(lang, "digital_ok") if digital == 1
              else t(lang, "digital_nodata"))
     st.markdown(
         f"""

@@ -56,7 +56,7 @@ class AlertDispatcher:
         stamp = ts.strftime("%Y-%m-%d %H:%M:%S")
 
         if digital is not None:
-            if self._last_digital == 0 and digital == 1 and self._can_fire():
+            if self._last_digital == 1 and digital == 0 and self._can_fire():
                 self._fire(t(self.lang, "alert_digital", ts=stamp, analog=analog))
             self._last_digital = digital
 
