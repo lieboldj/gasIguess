@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Project data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Local config (may contain Telegram token)
+config.local.yaml
+.env
+
+# Logs
+*.log
+logs/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+[Unit]
+Description=Gas sensor serial reader
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/liebold/Documents/smart_home
+ExecStart=/usr/bin/env python3 serial_reader.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

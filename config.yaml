@@ -1,0 +1,27 @@
+serial:
+  port: /dev/ttyACM0
+  baud_rate: 115200
+  reconnect_delay: 2
+
+storage:
+  db_path: gas_sensor.db
+
+thresholds:
+  warn: 400
+  alert: 600
+  # number of consecutive samples above `alert` before firing
+  consecutive: 3
+  # seconds between repeated alerts
+  cooldown: 300
+
+telegram:
+  enabled: false
+  token: ""
+  chat_id: ""
+
+dashboard:
+  refresh_seconds: 2
+  default_window_minutes: 15
+
+# language: en, de, fr, es
+language: de

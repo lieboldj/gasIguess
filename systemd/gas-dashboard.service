@@ -1,0 +1,13 @@
+[Unit]
+Description=Gas sensor Streamlit dashboard
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/liebold/Documents/smart_home
+ExecStart=/usr/bin/env streamlit run dashboard.py --server.headless true --server.port 8501
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
